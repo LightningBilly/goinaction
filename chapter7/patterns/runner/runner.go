@@ -6,6 +6,7 @@ import (
 	"errors"
 	"os"
 	"os/signal"
+	"runtime"
 	"time"
 )
 
@@ -61,6 +62,7 @@ func (r *Runner) Start() error {
 	select {
 	// Signaled when processing is done.
 	case err := <-r.complete:
+		runtime.Goexit()
 		return err
 
 	// Signaled when we run out of time.

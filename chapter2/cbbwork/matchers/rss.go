@@ -1,3 +1,4 @@
+// sskkkd
 package matchers
 
 import (
@@ -50,6 +51,8 @@ type (
 
 type rssMatcher struct {}
 
+// Retrieve连接到配置库，收集各种链接设置、用户名和密码。这个函数在成功时
+// 返回 config 结构，否则返回一个错误。
 func (m rssMatcher) Search(feed *search.Feed, searchTerm string) ([]*search.Result, error) {
     log.Printf("search Url[%s]", feed.Link)
     resp, err := getHttp(feed.Link)

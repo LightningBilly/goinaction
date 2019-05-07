@@ -12,7 +12,7 @@ import (
 )
 
 // timeout is the number of second the program has to finish.
-const timeout = 3 * time.Second
+const timeout = 1 * time.Second
 
 // main is the entry point for the program.
 func main() {
@@ -29,6 +29,7 @@ func main() {
 		switch err {
 		case runner.ErrTimeout:
 			log.Println("Terminating due to timeout.")
+			time.Sleep(time.Second)
 			os.Exit(1)
 		case runner.ErrInterrupt:
 			log.Println("Terminating due to interrupt.")
@@ -44,6 +45,7 @@ func main() {
 func createTask() func(int) {
 	return func(id int) {
 		log.Printf("Processor - Task #%d.", id)
+
 		time.Sleep(time.Duration(id) * time.Second)
 	}
 }

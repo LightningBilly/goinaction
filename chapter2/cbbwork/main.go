@@ -1,3 +1,5 @@
+// Sample program to show how to show you how to briefly work
+// with the sql package.
 package main
 
 import (
