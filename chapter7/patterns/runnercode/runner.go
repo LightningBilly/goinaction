@@ -2,6 +2,7 @@ package runner
 
 import (
     "os"
+    "os/signal"
     "time"
     "errors"
     "fmt"
@@ -31,14 +32,17 @@ func (r *Runner) Add(funcs ...func(int)) {
 
 func (r *Runner) run() error {
     for i, task :=range r.tasks {
+        if r.getInterrupt() {
+            return ErrInterrupt
+        }
         task(i)
     }
 
     return nil
 }
 
-
 func (r *Runner) Start() error {
+    signal.Notify(r.interrupt, os.Interrupt)
     go func() {
         r.complete <- r.run()
     } ()
@@ -48,5 +52,15 @@ func (r *Runner) Start() error {
             return err
         case <-r.timeout:
             return ErrTimeout
+    }
+}
+
+func (r *Runner) getInterrupt() bool {
+    select {
+        case <-r.interrupt:
+            signal.Stop(r.interrupt) //程序退出停止发送信号
+            return true
+        default:
+            return false
     }
 }

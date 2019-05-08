@@ -10,6 +10,7 @@ var TimeOut = 3 * time.Second
 
 func job(id int) {
     fmt.Println("Job : ", id)
+    time.Sleep(time.Duration(id+1)*time.Second)
 }
 
 func main() {
