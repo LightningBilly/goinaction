@@ -30,8 +30,36 @@ type (
 	}
 )
 
+var JSON  = `{
+	"responseData": {
+		"results": [{
+				"GsearchResultClass": "GwebSearch",
+				"unescapedUrl": "https://www.reddit.com/r/golang",
+				"url": "https://www.reddit.com/r/golang",
+				"visibleUrl": "www.reddit.com",
+				"cacheUrl": "http://www.google.com/search?q=cache:W...",
+				"title": "r/\u003cb\u003eGolang\u003c/b\u003e - Reddit",
+				"titleNoFormatting": "r/Golang - Reddit",
+				"content": "First Open Source \\u003cb\\u003eGolang\\u...",
+				"num": 10000
+			},
+			{
+				"GsearchResultClass": "GwebSearch",
+				"unescapedUrl": "http://tour.golang.org/",
+				"url": "http://tour.golang.org/",
+				"visibleUrl": "tour.golang.org",
+				"cacheUrl": "http://www.google.com/search?q=cache:O...",
+				"title": "A Tour of Go",
+				"titleNoFormatting": "A Tour of Go",
+				"content": "Welcome to a tour of the Go programming ..."
+			}
+		]
+	}
+}`
+
 func main() {
 	uri := "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=8&q=golang"
+	uri = "http://localhost:1323/search"
 
 	// Issue the search against Google.
 	resp, err := http.Get(uri)
@@ -40,6 +68,10 @@ func main() {
 		return
 	}
 	defer resp.Body.Close()
+	var b []byte
+	fmt.Println(resp.Body.Read(b))
+
+	log.Println("body :", string(b))
 
 	// Decode the JSON response into our struct type.
 	var gr gResponse
@@ -60,4 +92,6 @@ func main() {
 	}
 
 	fmt.Println(string(pretty))
+
+	err = json.Unmarshal([]byte(JSON), &h)
 }
