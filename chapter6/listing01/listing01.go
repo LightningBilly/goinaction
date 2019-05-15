@@ -30,7 +30,7 @@ func main() {
 		for count := 0; count < 3; count++ {
 			for char := 'a'; char < 'a'+26; char++ {
 				fmt.Printf("%c ", char)
-				time.Sleep(50*time.Millisecond)
+				time.Sleep(50 * time.Millisecond)
 			}
 		}
 	}()
@@ -44,7 +44,7 @@ func main() {
 		for count := 0; count < 3; count++ {
 			for char := 'A'; char < 'A'+26; char++ {
 				fmt.Printf("%c ", char)
-				time.Sleep(50*time.Millisecond)
+				time.Sleep(50 * time.Millisecond)
 			}
 		}
 	}()

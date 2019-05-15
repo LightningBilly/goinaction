@@ -8,15 +8,15 @@ import (
 )
 
 var (
-	Trace *log.Logger
+	Trace   *log.Logger
 	Warning *log.Logger
-	Info *log.Logger
-	Error *log.Logger
+	Info    *log.Logger
+	Error   *log.Logger
 )
 
 func init() {
 	log.Println("file write")
-	file, err := os.OpenFile("errors.txt", os.O_CREATE | os.O_WRONLY | os.O_APPEND, 0666)
+	file, err := os.OpenFile("errors.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalln("file failed")
 	}

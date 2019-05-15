@@ -29,7 +29,7 @@ func main() {
 	for {
 		b := make([]byte, 100)
 		n, err := r.Body.Read(b)
-		if n>0 {
+		if n > 0 {
 			buffer.Write(b)
 		}
 

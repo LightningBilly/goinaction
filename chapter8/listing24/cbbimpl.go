@@ -1,26 +1,26 @@
 package main
 
 import (
-    "fmt"
-    "encoding/json"
-    "io"
-    "net/http"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
 )
 
 type (
-    Result struct {
-        GsearchResultClass string `json:"GsearchResultClass"`
-        UnescapedUrl string `json:"unescapedUrl"`
-        Num int `json:"num"`
-    }
-    hResponse struct {
-        ResponseData struct {
-            Results []Result `json:"results"`
-        } `json:"responseData"`
-    }
+	Result struct {
+		GsearchResultClass string `json:"GsearchResultClass"`
+		UnescapedUrl       string `json:"unescapedUrl"`
+		Num                int    `json:"num"`
+	}
+	hResponse struct {
+		ResponseData struct {
+			Results []Result `json:"results"`
+		} `json:"responseData"`
+	}
 )
 
-var JSON  = `{
+var JSON = `{
 	"responseData": {
 		"results": [{
 				"GsearchResultClass": "GwebSearch",
@@ -48,46 +48,44 @@ var JSON  = `{
 }`
 
 func main() {
-    uri := "http://localhost:1323/search"
-    resp, err := http.Get(uri)
-    if err != nil {
-        fmt.Println("ERROR: ", err)
-        return
-    }
+	uri := "http://localhost:1323/search"
+	resp, err := http.Get(uri)
+	if err != nil {
+		fmt.Println("ERROR: ", err)
+		return
+	}
 
-    defer resp.Body.Close()
+	defer resp.Body.Close()
 
-    var h hResponse
-    err = json.NewDecoder(resp.Body).Decode(&h)
-    if err!=nil {
-        fmt.Println("ERROR:", err)
-        return
-    }
-    fmt.Println(h)
+	var h hResponse
+	err = json.NewDecoder(resp.Body).Decode(&h)
+	if err != nil {
+		fmt.Println("ERROR:", err)
+		return
+	}
+	fmt.Println(h)
 
-    pretty, err := json.MarshalIndent(h, "---", "    ")
-    if err != nil {
-        fmt.Println("ERROR: ", err)
-        return
-    }
+	pretty, err := json.MarshalIndent(h, "---", "    ")
+	if err != nil {
+		fmt.Println("ERROR: ", err)
+		return
+	}
 
-    fmt.Println(string(pretty))
+	fmt.Println(string(pretty))
 
+	err = json.Unmarshal([]byte(JSON), &h)
+	if err != nil {
+		fmt.Println("ERROR:", err)
+		return
 
-    err = json.Unmarshal([]byte(JSON), &h)
-    if err != nil {
-        fmt.Println("ERROR:", err)
-        return
+	}
 
-    }
+	pretty, err = json.MarshalIndent(h, "", "    ")
+	if err != nil {
+		fmt.Println("ERROR: ", err)
+		return
+	}
 
-
-    pretty, err = json.MarshalIndent(h, "", "    ")
-    if err != nil {
-        fmt.Println("ERROR: ", err)
-        return
-    }
-
-    fmt.Println(string(pretty))
-    io.Writer()
+	fmt.Println(string(pretty))
+	io.Writer()
 }

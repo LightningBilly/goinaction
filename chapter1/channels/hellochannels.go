@@ -20,9 +20,9 @@ type n interface {
 	notify()
 }
 
-type user struct {}
+type user struct{}
 
-func (u user)notify() {
+func (u user) notify() {
 	fmt.Print("f")
 }
 
@@ -40,7 +40,7 @@ func main() {
 	close(c)
 	wg.Wait()
 
-	arr := [5]int{0:1, 3:5}
+	arr := [5]int{0: 1, 3: 5}
 	fmt.Println(arr)
 
 	var x n

@@ -30,7 +30,7 @@ type (
 	}
 )
 
-var JSON  = `{
+var JSON = `{
 	"responseData": {
 		"results": [{
 				"GsearchResultClass": "GwebSearch",

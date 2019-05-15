@@ -1,15 +1,15 @@
 package main
 
 import (
-    "sync"
 	"fmt"
 	"github.com/goinaction/code/chapter7/patterns/poolcode"
 	"io"
+	"sync"
 )
 
 const (
-    PoolSize = 2
-    GoroteineNum = 25
+	PoolSize     = 2
+	GoroteineNum = 25
 )
 
 type Connection struct {
@@ -38,23 +38,23 @@ func createConnection() (io.Closer, error) {
 func main() {
 	fmt.Println("start")
 	p, _ := pool.New(createConnection, PoolSize)
-    wg := sync.WaitGroup{}
-    wg.Add(GoroteineNum)
-    for i:=0;i<GoroteineNum;i++ {
-        go func(job int) {
-            defer wg.Done() 
-            con, err := p.Aquire()
-            if err != nil {
-                fmt.Println("job : ", i, "err : ", err)
-                return
-            }
+	wg := sync.WaitGroup{}
+	wg.Add(GoroteineNum)
+	for i := 0; i < GoroteineNum; i++ {
+		go func(job int) {
+			defer wg.Done()
+			con, err := p.Aquire()
+			if err != nil {
+				fmt.Println("job : ", i, "err : ", err)
+				return
+			}
 
-            con.(*Connection).Work(job)
-            p.Release(con)
-        }(i)
-    }
+			con.(*Connection).Work(job)
+			p.Release(con)
+		}(i)
+	}
 
-    wg.Wait()
-    p.Close()
-    fmt.Println("finish job")
+	wg.Wait()
+	p.Close()
+	fmt.Println("finish job")
 }

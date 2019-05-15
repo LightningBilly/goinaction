@@ -10,7 +10,7 @@ import (
 )
 
 // ExampleSendJSON provides a basic example.
-func ExampleSendJSON() {
+func ExampleSendJSON1() {
 	r, _ := http.NewRequest("GET", "/sendjson", nil)
 	w := httptest.NewRecorder()
 	http.DefaultServeMux.ServeHTTP(w, r)
@@ -27,4 +27,17 @@ func ExampleSendJSON() {
 	fmt.Println(u)
 	// Output:
 	// {Bill bill@ardanstudios.com}
+}
+
+type A struct {
+}
+
+func (a A) fu() {
+	fmt.Println("a")
+}
+
+// ExampleSendJSON provides a basic example.
+func ExampleSendJSON() {
+	var a A
+	a.fu()
 }
